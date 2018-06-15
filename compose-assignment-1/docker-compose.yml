@@ -2,14 +2,13 @@ version: "3"
 
 services:
   pgdb:
-    image: postgres:10-alpine
+    image: postgres
     environment:
       - POSTGRES_PASSWORD=pass
     volumes:
       - pgdb-data:/var/lib/postgresql/data
   drupal:
-    build: .
-    image: drupal-custom
+    image: drupal
     ports:
       - "8082:80"
     volumes:
