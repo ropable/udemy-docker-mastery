@@ -1,0 +1,5 @@
+docker service create --name db --env POSTGRES_PASSWORD=pass --mount type=volume,source=db-data,destination=/var/lib/postgresql/data --network backend postgres:10.4-alpine
+docker service create --name worker --network backend --network frontend dockersamples/examplevotingapp_worker
+docker service create --name redis --network frontend redis:alpine
+docker service create --name vote --network frontend --publish 5000:80 --replicas 2 dockersamples/examplevotingapp_vote:before
+docker service create --name result --network backend --publish 5001:80 dockersamples/examplevotingapp_result:before

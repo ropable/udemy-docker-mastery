@@ -1,18 +1,21 @@
 version: "3.1"
 
 services:
+
   psql:
-    image: postgres
+    image: postgres:10.4-alpine
     secrets:
-      - psql_user
-      - psql_password
+      - psql-pw
     environment:
-      POSTGRES_PASSWORD_FILE: /run/secrets/psql_password
-      POSTGRES_USER_FILE: /run/secrets/psql_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/psql-pw
+
+  drupal:
+    image: drupal:8.5.4-apache
+    ports:
+      - "8082:80"
+    depends_on:
+      - psql
 
 secrets:
-  psql_user:
-    file: ./psql_user.txt
-  psql_password:
-    file: ./psql_password.txt
-
+  psql-pw:
+    external: true
